@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabby — a quiet home for your links</title>
+<meta name="description" content="A minimalist macOS menu bar app for saving and organizing website links. Local-first, private, free.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cpath d='M4 14Q3 9 6 7L5 4 7.5 6Q11 5 14.5 6L17 4 16 7Q19 9 18 14Q18 17 15 17.5Q11 18 7 17.5Q3 17 4 14ZM17.5 15.5Q20 15 19 12Q18.5 14 17.5 14Z' fill='%23111'/%3E%3C/svg%3E">
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Newsreader:ital@1&display=swap');
+
+  :root {
+    --bg: #ffffff;
+    --text: #111111;
+    --muted: #888888;
+    --border: #ebebeb;
+    --hover: #000000;
+  }
+
+  [data-theme="dark"] {
+    --bg: #111111;
+    --text: #ededed;
+    --muted: #666666;
+    --border: #1f1f1f;
+    --hover: #ffffff;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    line-height: 1.625;
+    -webkit-font-smoothing: antialiased;
+    transition: background 200ms ease, color 200ms ease;
+  }
+
+  body {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 80px 24px 120px;
+  }
+
+  .italic {
+    font-family: 'Newsreader', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  section {
+    margin-bottom: 48px;
+  }
+
+  h1 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+
+  h2 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    color: var(--muted);
+  }
+
+  p {
+    margin-bottom: 16px;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    transition: border-color 150ms ease, color 150ms ease;
+  }
+
+  a:hover {
+    color: var(--hover);
+    border-color: var(--hover);
+  }
+
+  .lead {
+    margin-bottom: 64px;
+  }
+
+  .lead-name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .lead-mark {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+
+  .lead-title {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .lead-tagline {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .download {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: border-color 150ms ease, color 150ms ease;
+  }
+
+  .download:hover {
+    border-color: var(--hover);
+    color: var(--hover);
+  }
+
+  .download-meta {
+    display: inline-block;
+    margin-left: 12px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .feature-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+
+  .feature-line:last-child {
+    border-bottom: none;
+  }
+
+  .feature-line .label {
+    color: var(--text);
+  }
+
+  .feature-line .value {
+    color: var(--muted);
+  }
+
+  .screenshot {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: var(--border);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .footer-line {
+    margin-top: 96px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .theme-toggle {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 150ms ease, color 150ms ease;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--hover);
+    color: var(--hover);
+  }
+
+  .theme-toggle svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .theme-toggle .moon { display: none; }
+  [data-theme="dark"] .theme-toggle .sun { display: none; }
+  [data-theme="dark"] .theme-toggle .moon { display: block; }
+
+  @media (max-width: 480px) {
+    body { padding: 56px 20px 100px; }
+    .lead { margin-bottom: 48px; }
+    section { margin-bottom: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="lead">
+  <div class="lead-name">
+    <svg class="lead-mark" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 14Q3 9 6 7L5 4 7.5 6Q11 5 14.5 6L17 4 16 7Q19 9 18 14Q18 17 15 17.5Q11 18 7 17.5Q3 17 4 14ZM17.5 15.5Q20 15 19 12Q18.5 14 17.5 14Z" fill="currentColor"/>
+    </svg>
+    <span class="lead-title">Tabby</span>
+  </div>
+  <p class="lead-tagline"><span class="italic">A quiet home</span> for your links.</p>
+  <p>Tabby is a macOS menu bar app for saving website links. No accounts, no servers, no syncing dashboards. Your bookmarks live on your machine as a single file you own.</p>
+
+  <a href="downloads/Tabby-1.0.dmg" class="download" download>
+    Download for macOS
+  </a>
+  <span class="download-meta">v1.0 · 4.2 MB · Apple Silicon &amp; Intel</span>
+</section>
+
+<section>
+  <h2>The problem</h2>
+  <p>Browser bookmarks are buried two clicks deep, scattered across three browsers, and lost the moment you switch machines. Bookmark managers solve this by selling your reading history to advertisers and locking your data behind a subscription.</p>
+  <p>Tabby does neither. It sits in your menu bar. You hit a shortcut. You save a link. That's the whole product.</p>
+</section>
+
+<section>
+  <h2>How it works</h2>
+  <div class="feature-line">
+    <span class="label">Storage</span>
+    <span class="value">Local JSON file</span>
+  </div>
+  <div class="feature-line">
+    <span class="label">Sync</span>
+    <span class="value">Optional, via iCloud Drive</span>
+  </div>
+  <div class="feature-line">
+    <span class="label">Shortcut</span>
+    <span class="value">⌘⇧L</span>
+  </div>
+  <div class="feature-line">
+    <span class="label">Export</span>
+    <span class="value">CSV, JSON, HTML, Markdown, PDF</span>
+  </div>
+  <div class="feature-line">
+    <span class="label">Requires</span>
+    <span class="value">macOS 13 or later</span>
+  </div>
+  <div class="feature-line">
+    <span class="label">Price</span>
+    <span class="value">Free</span>
+  </div>
+</section>
+
+<section>
+  <h2>Screens</h2>
+  <div class="screenshot">menu bar dropdown</div>
+  <p>The dropdown is the whole app. Search at the top. Links below. Tags on the side. Cmd-click to edit, return to open.</p>
+</section>
+
+<section>
+  <h2>Notes</h2>
+  <p>The export formats matter more than they seem. Bookmarks outlive the apps that store them. If Tabby disappears tomorrow, your data opens in any text editor, imports into any browser, prints to PDF.</p>
+  <p>That's the whole point.</p>
+</section>
+
+<section>
+  <h2>Install</h2>
+  <p>Download the DMG. Open it. Drag Tabby into Applications. Launch it once and grant accessibility access so the keyboard shortcut works. The icon appears in your menu bar. That's setup.</p>
+  <p>To uninstall, drag Tabby to the trash. Your data lives in <span class="italic">~/Library/Application Support/Tabby</span> and stays there unless you remove it yourself.</p>
+</section>
+
+<section>
+  <h2>Connect</h2>
+  <p><a href="mailto:hello@tabby.app">Email</a> · <a href="https://github.com/yourname/tabby">Source</a> · <a href="https://twitter.com/yourhandle">Twitter</a></p>
+</section>
+
+<div class="footer-line">
+  <span>Made on a quiet afternoon.</span>
+  <span>2026</span>
+</div>
+
+<button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+  <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="4"/>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+  </svg>
+  <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+</button>
+
+<script>
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
+  const saved = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.setAttribute('data-theme', saved || (prefersDark ? 'dark' : 'light'));
+</script>
+
+</body>
+</html>
