@@ -164,17 +164,41 @@
     color: var(--muted);
   }
 
-  .screenshot {
-    width: 100%;
-    aspect-ratio: 16 / 10;
-    background: var(--border);
-    border-radius: 8px;
+  .demo {
     margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--muted);
-    font-size: 13px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--border);
+    overflow: hidden;
+    line-height: 0;
+  }
+
+  .demo-video,
+  .demo-fallback {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1280 / 830;
+    object-fit: contain;
+    background: #f6f6f6;
+  }
+
+  [data-theme="dark"] .demo-video,
+  [data-theme="dark"] .demo-fallback {
+    background: #1a1a1a;
+  }
+
+  .demo-fallback {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .demo-video {
+      display: none;
+    }
+
+    .demo-fallback {
+      display: block;
+    }
   }
 
   .footer-line {
@@ -234,8 +258,8 @@
     </svg>
     <span class="lead-title">Tabby</span>
   </div>
-  <p class="lead-tagline"><span class="italic">A quiet home</span> for your links.</p>
-  <p>Tabby is a macOS menu bar app for saving website links. No accounts, no servers, no syncing dashboards. Your bookmarks live on your machine as a single file you own.</p>
+  <p class="lead-tagline"><span style="font-size: 12px;">The bookmark manager that doesn't want your email.</span></p>
+  <p>You probably have hundreds of bookmarks across two browsers and one abandoned Notion page. Finding the right one is the hard part. Tabby fixes that with a menu bar app, one keyboard shortcut, and a local file on your Mac.</p>
 
   <a href="downloads/Tabby-1.0.dmg" class="download" download>
     Download for macOS
@@ -244,24 +268,47 @@
 </section>
 
 <section>
-  <h2>The problem</h2>
-  <p>Browser bookmarks are buried two clicks deep, scattered across three browsers, and lost the moment you switch machines. Bookmark managers solve this by selling your reading history to advertisers and locking your data behind a subscription.</p>
-  <p>Tabby does neither. It sits in your menu bar. You hit a shortcut. You save a link. That's the whole product.</p>
+  <figure class="demo">
+    <video
+      class="demo-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      poster="media/tabby-demo-poster.jpg"
+      aria-label="Tabby menu bar dropdown in use"
+    >
+      <source src="media/tabby-demo.webm" type="video/webm">
+      <source src="media/tabby-demo.web.mp4" type="video/mp4">
+    </video>
+    <img
+      class="demo-fallback"
+      src="media/tabby-demo-poster.jpg"
+      alt="Tabby menu bar dropdown"
+      width="1280"
+      height="830"
+    >
+  </figure>
 </section>
 
 <section>
-  <h2>How it works</h2>
+  <p>Bookmarks rot in folders. You save something to "Read Later" and never see it again. Browser bookmark bars run out of space fast. Most bookmark apps charge you every month to sync data that could live in a tiny file.</p>
+  <p>Tabby does less on purpose. Hit ⌘⇧L, paste a link, move on. Hit ⌘⇧L later, and it is right there.</p>
+</section>
+
+<section>
   <div class="feature-line">
     <span class="label">Storage</span>
-    <span class="value">Local JSON file</span>
+    <span class="value">One JSON file on your Mac</span>
   </div>
   <div class="feature-line">
-    <span class="label">Sync</span>
-    <span class="value">Optional, via iCloud Drive</span>
+    <span class="label">Hotkey</span>
+    <span class="value">⌘⇧L from anywhere</span>
   </div>
   <div class="feature-line">
-    <span class="label">Shortcut</span>
-    <span class="value">⌘⇧L</span>
+    <span class="label">Search</span>
+    <span class="value">Instant across titles, URLs, notes, tags</span>
   </div>
   <div class="feature-line">
     <span class="label">Export</span>
@@ -273,31 +320,32 @@
   </div>
   <div class="feature-line">
     <span class="label">Price</span>
-    <span class="value">Free</span>
+    <span class="value">Free. Always.</span>
   </div>
 </section>
 
 <section>
-  <h2>Screens</h2>
-  <div class="screenshot">menu bar dropdown</div>
-  <p>The dropdown is the whole app. Search at the top. Links below. Tags on the side. Cmd-click to edit, return to open.</p>
+  <p>Bookmark apps are temporary. They get bought, shut down, or reinvented into something you did not ask for.</p>
+  <p>Your links should not depend on that. Tabby keeps everything in plain JSON. Open it in TextEdit. Grep it. Email it to yourself. Import it somewhere else years from now.</p>
+  <p>If Tabby disappears, your bookmarks do not.</p>
+  <p>That should be normal.</p>
 </section>
 
 <section>
-  <h2>Notes</h2>
-  <p>The export formats matter more than they seem. Bookmarks outlive the apps that store them. If Tabby disappears tomorrow, your data opens in any text editor, imports into any browser, prints to PDF.</p>
-  <p>That's the whole point.</p>
+  <p>Tabby is for people who save links and forget where they put them. People who want a bookmark manager that feels like software from before every app needed an account.</p>
+  <p>You get tags, full-text search, and exports. If you want shared folders, AI summaries, and reading analytics, other apps already do that.</p>
 </section>
 
 <section>
   <h2>Install</h2>
-  <p>Download the DMG. Open it. Drag Tabby into Applications. Launch it once and grant accessibility access so the keyboard shortcut works. The icon appears in your menu bar. That's setup.</p>
-  <p>To uninstall, drag Tabby to the trash. Your data lives in <span class="italic">~/Library/Application Support/Tabby</span> and stays there unless you remove it yourself.</p>
+  <p>Download. Drag to Applications. Open. The icon appears in your menu bar and setup is done in seconds.</p>
+  <p>No signup. No onboarding tour. No "personalize your experience." Tabby opens, asks for nothing, and gets out of your way.</p>
+  <p>To uninstall, drag Tabby to the Trash. Your data stays in <span class="italic">~/Library/Application Support/Tabby</span> until you remove it yourself.</p>
 </section>
 
 <section>
   <h2>Connect</h2>
-  <p><a href="mailto:hello@tabby.app">Email</a> · <a href="https://github.com/yourname/tabby">Source</a> · <a href="https://twitter.com/yourhandle">Twitter</a></p>
+  <p><a href="mailto:sumitmaithani824@gmail.com">Email</a> · <a href="https://github.com/Sumitmaithani/tabby">Source</a> · <a href="https://x.com/shakesofpeer">X</a></p>
 </section>
 
 <div class="footer-line">
