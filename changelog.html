@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Changelog — Tabby</title>
+    <meta
+      name="description"
+      content="Release notes for Tabby, a minimalist macOS menu bar bookmark manager."
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cpath d='M4 14Q3 9 6 7L5 4 7.5 6Q11 5 14.5 6L17 4 16 7Q19 9 18 14Q18 17 15 17.5Q11 18 7 17.5Q3 17 4 14ZM17.5 15.5Q20 15 19 12Q18.5 14 17.5 14Z' fill='%23111'/%3E%3C/svg%3E"
+    />
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Newsreader:ital@1&display=swap");
+
+      :root {
+        --bg: #ffffff;
+        --text: #111111;
+        --muted: #888888;
+        --border: #ebebeb;
+        --hover: #000000;
+      }
+
+      [data-theme="dark"] {
+        --bg: #111111;
+        --text: #ededed;
+        --muted: #666666;
+        --border: #1f1f1f;
+        --hover: #ffffff;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        font-size: 14px;
+        line-height: 1.625;
+        -webkit-font-smoothing: antialiased;
+        transition:
+          background 200ms ease,
+          color 200ms ease;
+      }
+
+      body {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 80px 24px 120px;
+      }
+
+      .italic {
+        font-family: "Newsreader", Georgia, serif;
+        font-style: italic;
+        font-weight: 400;
+      }
+
+      section {
+        margin-bottom: 48px;
+      }
+
+      h1 {
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 24px;
+      }
+
+      h2 {
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 16px;
+        color: var(--muted);
+      }
+
+      p {
+        margin-bottom: 16px;
+      }
+
+      p:last-child {
+        margin-bottom: 0;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+        border-bottom: 1px solid var(--border);
+        transition:
+          border-color 150ms ease,
+          color 150ms ease;
+      }
+
+      a:hover {
+        color: var(--hover);
+        border-color: var(--hover);
+      }
+
+      .lead {
+        margin-bottom: 64px;
+      }
+
+      .lead-name {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .lead-mark {
+        width: 28px;
+        height: 28px;
+        flex-shrink: 0;
+      }
+
+      .lead-title {
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .lead-tagline {
+        font-size: 14px;
+        color: var(--muted);
+        margin-bottom: 20px;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        border-bottom: none;
+        color: var(--text);
+        font-size: 14px;
+        line-height: 1.625;
+        transition: color 150ms ease;
+      }
+
+      .back-link:hover {
+        color: var(--hover);
+        border-color: transparent;
+      }
+
+      .back-link:hover .back-icon {
+        opacity: 0.6;
+      }
+
+      .back-link .italic {
+        display: inline-flex;
+        align-items: center;
+        line-height: 1;
+      }
+
+      .back-icon {
+        display: block;
+        height: 1em;
+        width: auto;
+        flex-shrink: 0;
+        align-self: center;
+        margin: 0;
+        transition: opacity 150ms ease;
+      }
+
+      [data-theme="dark"] .back-icon {
+        filter: invert(1);
+      }
+
+      .download {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+        padding: 8px 14px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        transition:
+          border-color 150ms ease,
+          color 150ms ease;
+      }
+
+      .download:hover {
+        border-color: var(--hover);
+        color: var(--hover);
+      }
+
+      .download-meta {
+        display: inline-block;
+        margin-left: 12px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .feature-line {
+        display: flex;
+        justify-content: space-between;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 14px;
+      }
+
+      .feature-line:last-child {
+        border-bottom: none;
+      }
+
+      .feature-line .label {
+        color: var(--text);
+      }
+
+      .feature-line .value {
+        color: var(--muted);
+      }
+
+      .demo {
+        margin-bottom: 16px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--border);
+        overflow: hidden;
+        line-height: 0;
+      }
+
+      .demo-video,
+      .demo-fallback {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1280 / 830;
+        object-fit: contain;
+        background: #f6f6f6;
+      }
+
+      [data-theme="dark"] .demo-video,
+      [data-theme="dark"] .demo-fallback {
+        background: #1a1a1a;
+      }
+
+      .demo-fallback {
+        display: none;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .demo-video {
+          display: none;
+        }
+
+        .demo-fallback {
+          display: block;
+        }
+      }
+
+      .footer-line {
+        margin-top: 96px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .theme-toggle {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        width: 36px;
+        height: 36px;
+        border: 1px solid var(--border);
+        border-radius: 50%;
+        background: var(--bg);
+        color: var(--text);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          border-color 150ms ease,
+          color 150ms ease;
+      }
+
+      .theme-toggle:hover {
+        border-color: var(--hover);
+        color: var(--hover);
+      }
+
+      .theme-toggle svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .theme-toggle .moon {
+        display: none;
+      }
+      [data-theme="dark"] .theme-toggle .sun {
+        display: none;
+      }
+      [data-theme="dark"] .theme-toggle .moon {
+        display: block;
+      }
+
+      .changelog-list {
+        list-style: none;
+        margin: 0 0 20px;
+      }
+
+      .changelog-list li {
+        display: flex;
+        gap: 12px;
+        padding: 4px 0;
+        font-size: 14px;
+        line-height: 1.625;
+      }
+
+      .changelog-list li::before {
+        content: "•";
+        color: var(--muted);
+        flex-shrink: 0;
+      }
+
+      .version-header {
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 16px;
+        color: var(--muted);
+      }
+
+      .version-download {
+        margin-top: 20px;
+      }
+
+      .changelog-title {
+        border-bottom: 1px solid var(--border);
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 56px 20px 100px;
+        }
+        .lead {
+          margin-bottom: 48px;
+        }
+        section {
+          margin-bottom: 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="lead">
+      <div class="lead-name">
+        <svg
+          class="lead-mark"
+          viewBox="0 0 22 22"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M4 14Q3 9 6 7L5 4 7.5 6Q11 5 14.5 6L17 4 16 7Q19 9 18 14Q18 17 15 17.5Q11 18 7 17.5Q3 17 4 14ZM17.5 15.5Q20 15 19 12Q18.5 14 17.5 14Z"
+            fill="currentColor"
+          />
+        </svg>
+        <span class="lead-title">Tabby</span>
+      </div>
+      <p class="lead-tagline">
+        <a href="/" class="back-link"
+          ><img src="media/back-icon.svg" alt="" class="back-icon" />
+        </a>
+        <a href="/" class="italic lead-tagline back-link"
+          >Back</a
+        >
+      </p>
+      <h1 class="changelog-title">Changelog</h1>
+    </section>
+
+    <section>
+      <p class="version-header">v1.1 — 21 may 2026</p>
+      <ul class="changelog-list">
+        <li>
+          Import bookmarks from Chrome, Arc, Brave, Edge, and Comet in one
+          click.
+        </li>
+        <li>
+          Import from file works too: CSV or JSON.
+        </li>
+        <li>
+          New first-launch screen: choose browser import, choose file import, or
+          skip.
+        </li>
+        <li>
+          You can preview before saving. Tabby shows duplicate counts first.
+        </li>
+        <li>
+          Auto-backup now runs before every import. If an import goes sideways,
+          roll back.
+        </li>
+        <li>Fixed ⌘⇧L on fresh installs.</li>
+        <li>
+          Popover now comes to the front when opened, so typing works
+          immediately.
+        </li>
+        <li>
+          Fixed a bug where "add bookmark" sometimes opened with stale text from
+          a previously edited link.
+        </li>
+        <li>
+          Removed the light/dark/system picker. Tabby follows system appearance
+          now.
+        </li>
+        <li>Fixed a small memory leak in the hotkey handler.</li>
+      </ul>
+      <a
+        href="downloads/Tabby-1.1.dmg"
+        class="download version-download"
+        download
+        >Download v1.1 (2.1 MB)</a
+      >
+    </section>
+
+    <section>
+      <p class="version-header">v1.0 — 17 may 2026</p>
+      <ul class="changelog-list">
+        <li>One keystroke to save a link: ⌘⇧L from anywhere.</li>
+        <li>Paste a URL, Tabby pulls title and favicon.</li>
+        <li>Search titles, URLs, tags, and notes as you type.</li>
+        <li>
+          Color tags. Sort by date, name, or how often you click something.
+        </li>
+        <li>Export to CSV, JSON, HTML, Markdown, or PDF.</li>
+        <li>
+          Everything is in one JSON file on your Mac. No account. No cloud. No
+          telemetry.
+        </li>
+      </ul>
+      <a
+        href="downloads/Tabby-1.0.dmg"
+        class="download version-download"
+        download
+        >Download v1.0 (4.2 MB)</a
+      >
+    </section>
+
+    <div class="footer-line">
+      <span>Made on a quiet afternoon.</span>
+      <span>2026</span>
+    </div>
+
+    <button
+      class="theme-toggle"
+      aria-label="Toggle theme"
+      onclick="toggleTheme()"
+    >
+      <svg
+        class="sun"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="12" r="4" />
+        <path
+          d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
+        />
+      </svg>
+      <svg
+        class="moon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+      </svg>
+    </button>
+
+    <script>
+      function toggleTheme() {
+        const current = document.documentElement.getAttribute("data-theme");
+        const next = current === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+      }
+      const saved = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      document.documentElement.setAttribute(
+        "data-theme",
+        saved || (prefersDark ? "dark" : "light"),
+      );
+    </script>
+  </body>
+</html>
