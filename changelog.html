@@ -15,7 +15,7 @@
     />
 
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Newsreader:ital@1&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Inter:wght@400;500&family=Newsreader:ital@1&display=swap");
 
       :root {
         --bg: #ffffff;
@@ -23,6 +23,13 @@
         --muted: #888888;
         --border: #ebebeb;
         --hover: #000000;
+
+        --font-sans:
+          "IBM Plex Sans", "Inter", -apple-system, BlinkMacSystemFont,
+          sans-serif;
+        --font-display:
+          "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-serif: "Newsreader", Georgia, serif;
       }
 
       [data-theme="dark"] {
@@ -42,14 +49,12 @@
       html {
         background: var(--bg);
         color: var(--text);
-        font-family:
-          "Inter",
-          -apple-system,
-          BlinkMacSystemFont,
-          sans-serif;
-        font-size: 14px;
-        line-height: 1.625;
+        font-family: var(--font-sans);
+        font-size: 16px;
+        line-height: 1.75;
         -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
         transition:
           background 200ms ease,
           color 200ms ease;
@@ -58,13 +63,14 @@
       body {
         max-width: 640px;
         margin: 0 auto;
-        padding: 80px 24px 120px;
+        padding: 80px 16px 120px;
       }
 
       .italic {
-        font-family: "Newsreader", Georgia, serif;
+        font-family: var(--font-serif);
         font-style: italic;
         font-weight: 400;
+        font-size: calc(1em + 1px);
       }
 
       section {
@@ -72,14 +78,18 @@
       }
 
       h1 {
-        font-size: 14px;
+        font-family: var(--font-display);
+        font-size: 16px;
         font-weight: 500;
+        line-height: 1.75;
         margin-bottom: 24px;
       }
 
       h2 {
+        font-family: var(--font-display);
         font-size: 14px;
         font-weight: 500;
+        line-height: 1.4286;
         margin-bottom: 16px;
         color: var(--muted);
       }
@@ -124,12 +134,15 @@
       }
 
       .lead-title {
+        font-family: var(--font-display);
         font-size: 14px;
         font-weight: 500;
+        line-height: 1.4286;
       }
 
       .lead-tagline {
         font-size: 14px;
+        line-height: 1.4286;
         color: var(--muted);
         margin-bottom: 20px;
       }
@@ -141,8 +154,9 @@
         gap: 6px;
         border-bottom: none;
         color: var(--text);
+        font-family: var(--font-display);
         font-size: 14px;
-        line-height: 1.625;
+        line-height: 1.4286;
         transition: color 150ms ease;
       }
 
@@ -183,8 +197,10 @@
         padding: 8px 14px;
         border: 1px solid var(--border);
         border-radius: 6px;
-        font-size: 13px;
+        font-family: var(--font-display);
+        font-size: 14px;
         font-weight: 500;
+        line-height: 1.4286;
         transition:
           border-color 150ms ease,
           color 150ms ease;
@@ -198,7 +214,9 @@
       .download-meta {
         display: inline-block;
         margin-left: 12px;
-        font-size: 13px;
+        font-family: var(--font-display);
+        font-size: 14px;
+        line-height: 1.4286;
         color: var(--muted);
       }
 
@@ -207,7 +225,9 @@
         justify-content: space-between;
         padding: 14px 0;
         border-bottom: 1px solid var(--border);
+        font-family: var(--font-display);
         font-size: 14px;
+        line-height: 1.4286;
       }
 
       .feature-line:last-child {
@@ -264,7 +284,9 @@
         padding-top: 24px;
         border-top: 1px solid var(--border);
         color: var(--muted);
-        font-size: 13px;
+        font-family: var(--font-display);
+        font-size: 14px;
+        line-height: 1.4286;
         display: flex;
         justify-content: space-between;
       }
@@ -317,8 +339,8 @@
         display: flex;
         gap: 12px;
         padding: 4px 0;
-        font-size: 14px;
-        line-height: 1.625;
+        font-size: 16px;
+        line-height: 1.75;
       }
 
       .changelog-list li::before {
@@ -328,8 +350,10 @@
       }
 
       .version-header {
+        font-family: var(--font-display);
         font-size: 14px;
         font-weight: 500;
+        line-height: 1.4286;
         margin-bottom: 16px;
         color: var(--muted);
       }
@@ -344,7 +368,7 @@
 
       @media (max-width: 480px) {
         body {
-          padding: 56px 20px 100px;
+          padding: 56px 16px 100px;
         }
         .lead {
           margin-bottom: 48px;
